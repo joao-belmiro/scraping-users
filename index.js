@@ -1,11 +1,14 @@
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
 const baseUrl = 'https://medium.com'
-
+app.use(cors({
+  origin: '*'
+}));
 app.get('/search/:query', async (req, res) => {
   try {
     const query = req.params.query;
