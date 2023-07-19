@@ -18,7 +18,9 @@ app.get('/search/:query', async (req, res) => {
 
     const $ = cheerio.load(response.data);
     const articles = $('div.kg.bg.l')
-    const results = [];
+    const topics = $('div.hz.ab')
+    const results = []
+    const topicsMatch = []
 
     articles.each((index, element) => {
       const article = $(element);
@@ -26,7 +28,12 @@ app.get('/search/:query', async (req, res) => {
       results.push(articleInfo);
     });
 
-    res.json(results);
+    topics.each((index, elements) => {
+      const topic = $(elements);
+      topicsMatch.push(topic.text());
+    });
+
+  res.json({topics:topicsMatch ,results: results});
   } catch (error) {
     console.error('Falha na requisição:', error.message);
     res.status(500).json({ error: 'Erro ao realizar a busca' });
@@ -46,8 +53,6 @@ function extractArticleInfo(article) {
     link: link.includes('http') ? link : `${baseUrl}${link}`
   };
 }
-
-// Inicie o servidor
 app.listen(port, () => {
   console.log(`Servidor escutando na porta ${port}`);
 });
