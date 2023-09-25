@@ -17,7 +17,7 @@ app.get('/search/:query', async (req, res) => {
     const response = await axios.get(url);
 
     const $ = cheerio.load(response.data);
-    const articles = $('div.kg.bg.l')
+    const articles = $('div.kh.bg.l')
     const topics = $('div.hz.ab')
     const results = []
     const topicsMatch = []
